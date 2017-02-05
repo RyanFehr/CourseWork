@@ -1,0 +1,22 @@
+\COPY student FROM 'C:\Users\Ryan\Desktop\B461\Assignment2\student.csv' DELIMITER ' ' CSV;
+
+ALTER TABLE major
+ADD FOREIGN KEY (Sid)
+REFERENCES student(Sid);
+
+
+ALTER TABLE cites
+ADD FOREIGN KEY (BookNo)
+REFERENCES book(BookNo);
+
+ALTER TABLE cites
+ADD FOREIGN KEY (CitedBookNo)
+REFERENCES book(BookNo);
+
+ALTER TABLE buys
+ADD FOREIGN KEY (Sid)
+REFERENCES student(Sid);
+
+ALTER TABLE buys
+ADD FOREIGN KEY (BookNo)
+REFERENCES book(BookNo);

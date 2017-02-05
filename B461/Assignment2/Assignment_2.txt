@@ -1,0 +1,504 @@
+CREATE DATABASE "Assignment_2"
+  WITH OWNER = postgres
+       ENCODING = 'UTF8'
+       TABLESPACE = pg_default
+       LC_COLLATE = 'English_United States.1252'
+       LC_CTYPE = 'English_United States.1252'
+       CONNECTION LIMIT = -1;
+
+
+
+CREATE TABLE student1(sid INTEGER, sname VARCHAR(15));
+CREATE TABLE major(sid INTEGER, major VARCHAR(15));
+CREATE TABLE book(bookNo INTEGER, title VARCHAR(30), price INTEGER);
+CREATE TABLE cites(bookNo INTEGER, citedBookNo INTEGER);
+CREATE TABLE buys(sid INTEGER, bookNo INTEGER);
+
+
+\COPY student FROM 'C:\Users\Ryan\Desktop\B461\Assignment2\student.csv' (DELIMITER(E'\t'));
+\COPY major FROM 'C:\Users\Ryan\Desktop\B461\Assignment2\major.csv' (DELIMITER(E'\t'));
+\COPY book FROM 'C:\Users\Ryan\Desktop\B461\Assignment2\book.csv' (DELIMITER(E'\t'));
+\COPY student FROM 'C:\Users\Ryan\Desktop\B461\Assignment2\buys.csv' (DELIMITER(E'\t'));
+\COPY cites FROM 'C:\Users\Ryan\Desktop\B461\Assignment2\cites.csv' (DELIMITER(E'\t'));
+
+ALTER TABLE student
+ADD PRIMARY KEY (sid);
+
+ALTER TABLE major
+ADD PRIMARY KEY (sid, major);
+
+ALTER TABLE book
+ADD PRIMARY KEY (bookNo);
+
+ALTER TABLE cites
+ADD PRIMARY KEY (bookNo,citedBookNo);
+
+ALTER TABLE buys
+ADD PRIMARY KEY (sid, bookNo);
+
+
+
+ALTER TABLE major
+ADD FOREIGN KEY (Sid)
+REFERENCES student(Sid);
+
+
+ALTER TABLE cites
+ADD FOREIGN KEY (BookNo)
+REFERENCES book(BookNo);
+
+ALTER TABLE cites
+ADD FOREIGN KEY (CitedBookNo)
+REFERENCES book(BookNo);
+
+ALTER TABLE buys
+ADD FOREIGN KEY (Sid)
+REFERENCES student(Sid);
+
+ALTER TABLE buys
+ADD FOREIGN KEY (BookNo)
+REFERENCES book(BookNo);
+
+
+CREATE TABLE A(a INTEGER);
+CREATE TABLE B(b INTEGER);
+CREATE TABLE C(c INTEGER);
+INSERT INTO A values(1);
+INSERT INTO A values(2);
+INSERT INTO A values(3);
+INSERT INTO B values(1);
+INSERT INTO B values(3);
+INSERT INTO C values(1);
+
+--(1) 
+SELECT 
+	EXISTS(SELECT A FROM A EXCEPT SELECT B FROM B) AS empty_a_minus_b,
+	EXISTS(SELECT B FROM B EXCEPT SELECT A FROM A) AS empty_b_minus_a,
+	EXISTS(SELECT A FROM A INTERSECT SELECT B FROM B) AS  empty_a_intersection_b; 
+
+
+
+INSERT INTO A values(4);
+INSERT INTO A values(5);
+--(2) Write a SQL statement that produces a table that, for each x in A, list the tuple (x,vx,x2,2x,x!,lnx).
+SELECT 
+	A AS X,
+	SQRT(A) AS square_root_x,
+	POWER(A,2) AS x_squared,
+	POWER(2,A) AS two_to_the_power_x,
+	FACTORIAL(A) AS x_factorial,
+	LN(A) AS logarithm_x
+
+FROM 
+	A;
+
+--(3)
+SELECT 
+	p.value AS p,
+	q.value AS q,
+	r.value AS r,
+	NOT(p.value AND NOT q.value) AND NOT r.value AS value 
+FROM 
+	p,
+	q,
+	r;
+
+--(4)
+--(a) 
+SELECT EXISTS(SELECT A FROM A INTERSECT SELECT B FROM B) as answer;
+
+SELECT EXISTS
+	(SELECT A FROM A EXCEPT
+		((SELECT A FROM A EXCEPT SELECT B FROM B)
+		UNION
+		(SELECT B FROM B EXCEPT SELECT A FROM A))) AS answer;
+
+--(b)
+SELECT NOT EXISTS(SELECT A FROM A INTERSECT SELECT B FROM B) AS answer;
+
+SELECT NOT EXISTS
+	(SELECT A FROM A EXCEPT
+		((SELECT A FROM A EXCEPT SELECT B FROM B)
+		UNION
+		(SELECT B FROM B EXCEPT SELECT A FROM A))) AS answer;
+
+--(c)
+SELECT NOT EXISTS(SELECT A FROM A EXCEPT SELECT B FROM B) AS answer;
+
+SELECT NOT EXISTS(
+	SELECT a.A
+	FROM A a
+	WHERE 
+	    NOT EXISTS (
+		SELECT b.B 
+		FROM B b 
+		WHERE a.A = b.B)) AS answer;
+
+--(d)
+SELECT NOT EXISTS(
+	(SELECT A FROM A EXCEPT SELECT B FROM B) 
+	UNION 
+	(SELECT B FROM B EXCEPT SELECT A FROM A)) AS answer;
+
+SELECT NOT EXISTS(
+	(SELECT a.A FROM A a WHERE NOT EXISTS (SELECT b.B FROM B b WHERE a.A = b.B))
+	UNION
+	(SELECT b.B FROM B b WHERE NOT EXISTS (SELECT a.A FROM A a WHERE b.B = a.A))) 
+	AS answer;
+
+
+--(e)
+SELECT EXISTS(
+	(SELECT A FROM A EXCEPT SELECT B FROM B) 
+	UNION 
+	(SELECT B FROM B EXCEPT SELECT A FROM A)) AS answer;
+
+SELECT EXISTS(
+	(SELECT a.A FROM A a WHERE NOT EXISTS (SELECT b.B FROM B b WHERE a.A = b.B))
+	UNION
+	(SELECT b.B FROM B b WHERE NOT EXISTS (SELECT a.A FROM A a WHERE b.B = a.A))) 
+	AS answer;
+
+--(f)
+SELECT EXISTS(
+SELECT 1
+FROM
+	(SELECT A FROM A INTERSECT SELECT B FROM B) AS a1,
+	(SELECT A FROM A INTERSECT SELECT B FROM B) AS a2
+WHERE a1.A <> a2.A);
+
+
+SELECT EXISTS(
+SELECT 1
+FROM
+	(SELECT A FROM A EXCEPT
+		((SELECT A FROM A EXCEPT SELECT B FROM B)
+		UNION
+		(SELECT B FROM B EXCEPT SELECT A FROM A))) AS a1,
+	(SELECT A FROM A EXCEPT
+		((SELECT A FROM A EXCEPT SELECT B FROM B)
+		UNION
+		(SELECT B FROM B EXCEPT SELECT A FROM A))) AS a2
+WHERE a1.A <> a2.A);
+
+--(g)
+SELECT NOT EXISTS(
+SELECT 1
+FROM
+	(SELECT A FROM A INTERSECT SELECT B FROM B) AS a1,
+	(SELECT A FROM A INTERSECT SELECT B FROM B) AS a2
+WHERE a1.A <> a2.A);
+
+SELECT NOT EXISTS(
+SELECT 1
+FROM
+	(SELECT A FROM A EXCEPT
+		((SELECT A FROM A EXCEPT SELECT B FROM B)
+		UNION
+		(SELECT B FROM B EXCEPT SELECT A FROM A))) AS a1,
+	(SELECT A FROM A EXCEPT
+		((SELECT A FROM A EXCEPT SELECT B FROM B)
+		UNION
+		(SELECT B FROM B EXCEPT SELECT A FROM A))) AS a2
+WHERE a1.A <> a2.A);
+
+--(h)
+SELECT NOT EXISTS(
+	(SELECT C FROM C) EXCEPT ((SELECT A FROM A) UNION (SELECT B FROM B)));
+
+--(i)
+
+SELECT NOT EXISTS(
+SELECT *
+FROM
+	(((SELECT A FROM A) EXCEPT (SELECT B FROM B)) 
+	UNION 
+	((SELECT B FROM B) INTERSECT (SELECT C FROM C))) AS a1, 
+	(((SELECT A FROM A) EXCEPT (SELECT B FROM B)) 
+	UNION 
+	((SELECT B FROM B) INTERSECT (SELECT C FROM C))) AS a2,
+	(((SELECT A FROM A) EXCEPT (SELECT B FROM B)) 
+	UNION 
+	((SELECT B FROM B) INTERSECT (SELECT C FROM C))) AS a3
+
+WHERE a1.A <> a2.A AND a3.A <> a1.A AND a3.A <> a2.A) AS answer;
+
+--WHERE (a1.A <> a2.A and (a3.A <> a1.A AND a3.A <> a2.A)) OR (a1.A = a2.A AND a2.A = a3.A)) AS answer;
+
+
+SELECT EXISTS(
+SELECT *
+FROM
+	(((SELECT A FROM A) EXCEPT (SELECT B FROM B)) 
+	UNION 
+	((SELECT B FROM B) INTERSECT (SELECT C FROM C))) AS a1, 
+	(((SELECT A FROM A) EXCEPT (SELECT B FROM B)) 
+	UNION 
+	((SELECT B FROM B) INTERSECT (SELECT C FROM C))) AS a2
+WHERE a1.A <> a2.A AND NOT EXISTS
+	(SELECT * 
+	FROM  
+		(((SELECT A FROM A) EXCEPT (SELECT B FROM B)) 
+		UNION 
+		((SELECT B FROM B) INTERSECT (SELECT C FROM C))) AS a3,
+		(((SELECT A FROM A) EXCEPT (SELECT B FROM B)) 
+		UNION 
+		((SELECT B FROM B) INTERSECT (SELECT C FROM C))) AS a4,
+		(((SELECT A FROM A) EXCEPT (SELECT B FROM B)) 
+		UNION 
+		((SELECT B FROM B) INTERSECT (SELECT C FROM C))) AS a5
+	WHERE a3.A <> a4.A AND a3.A <> a5.A AND a4.A <> a5.A))
+--(5)
+--(a)
+CREATE Table P(PID Integer, x Float, y Float);
+INSERT INTO P VALUES(1,0,0);
+INSERT INTO P VALUES(2,0,1);
+INSERT INTO P VALUES(3,1,0);
+INSERT INTO P VALUES(4,1,1);
+
+CREATE VIEW viewP AS SELECT p1.PID AS pt1, p2.PID AS pt2, SQRT(POWER((p1.x-p2.x),2)+POWER((p1.y-p2.y),2)) AS distance
+FROM P p1, P p2;
+
+SELECT pt1,pt2 FROM viewP WHERE distance NOT IN
+(SELECT P1.distance FROM viewP AS P1, viewP AS P2
+  WHERE P1.distance < P2.distance);
+
+--(b)
+CREATE VIEW viewP2 AS SELECT viewP.pt1, viewP.pt2, viewP.distance 
+FROM viewP 
+WHERE viewp.distance < (SELECT DISTINCT distance FROM viewP WHERE distance NOT IN
+			(SELECT P1.distance FROM viewP AS P1, viewP AS P2
+  			WHERE P1.distance < P2.distance));
+
+SELECT pt1,pt2 
+FROM viewP2 
+WHERE distance NOT IN(SELECT P1.distance 
+		      FROM viewP2 AS P1, viewP2 AS P2
+  		      WHERE P1.distance < P2.distance);
+
+
+--(6)
+CREATE VIEW violatedKeys AS (SELECT EXISTS(
+  SELECT distinct w1.A
+  FROM W w1, W w2
+  WHERE w1.A = w2.A AND w1.B <> w2.B))
+
+SELECT * FROM 
+(
+  SELECT A FROM W WHERE NOT (SELECT * FROM violatedKeys)
+  UNION
+  SELECT distinct w1.A
+  FROM W w1, W w2
+  WHERE w1.A = w2.A AND w1.B <> w2.B AND (SELECT * FROM violatedKeys)
+) A;
+
+--(7)
+
+SELECT title 
+FROM book
+WHERE price >= 20 AND price <=40;
+
+--(8)
+--Find the Sid’s and Sname’s of students who bought a book that cites another book of a lower price.
+SELECT DISTINCT s.sid,s.sname
+FROM student s, buys by, book b1, book b2, cites c
+WHERE s.sid = by.sid AND by.bookNo = c.bookNo AND c.citedBookNo = b1.bookNo AND c.BookNo =  b2.bookNo AND b1.price < b2.price;
+
+--(9)
+--Find the Bookno’s of books that are cited by a book (or books) that is (are) itself (themselves) cited by another (other) books.
+SELECT DISTINCT c1.citedBookNo
+FROM cites c1, cites c2, cites c3
+WHERE c1.bookno = c2.citedBookNo 
+	AND c2.bookNo = c3.citedBookNo 
+	AND c2.bookNo <> c1.bookNo 
+	AND c3.bookNo <> c1.bookNo 
+	AND c2.bookNo <> c3.bookNo;
+
+--(10)
+Find the BookNo’s of books that are not cited by another (other) books.
+
+SELECT bookNo
+FROM book
+WHERE book.bookNo NOT IN
+(SELECT DISTINCT b.bookNo
+FROM  book b, cites c1
+WHERE b. bookNo = c1.citedBookNo)
+
+--(11)
+--Find Sid’s and Sname’s of students who have at least two majors and who only 
+--bought books that were cited by other books.
+
+SELECT st.sid, st.sname 
+FROM ((SELECT  DISTINCT s.sid, s.sname
+	FROM  student s, cites c, buys by, major m1, major m2
+	WHERE s.sid = by.sid 
+		AND s.sid = m1.sid 
+		AND s.sid = m2.sid 
+		AND m1.major <> m2.major 
+		AND by.bookNo = c.citedBookNo)
+     EXCEPT
+     (SELECT  DISTINCT s.sid, s.sname
+	FROM  student s, book b, cites c, buys by, major m1, major m2
+	WHERE s.sid = by.sid 
+		AND s.sid = m1.sid 
+		AND s.sid = m2.sid 
+		AND m1.major <> m2.major 
+		AND by.bookNo <> ALL(SELECT citedBookNo FROM cites))) st
+
+--(12)
+--Find Sid’s and majors of students who did not buy any books that cost less than $30.
+
+CREATE VIEW studentsWhoBoughtCheapBooks AS(
+SELECT DISTINCT s.sid
+FROM student s, buys by, book b
+WHERE s.sid = by.sid AND by.bookNo = b.bookNO AND b.price < 30);
+
+SELECT DISTINCT s.sid, m.major
+FROM student s, major m, buys by
+WHERE s.sid = m.sid AND s.sid NOT IN (SELECT * FROM studentsWhoBoughtCheapBooks);  
+
+--(13)
+--Find each (s,b) pair where s is the Sid of a student and b is the Bookno of a 
+--book whose price is the cheapest among the books bought by that student.
+
+SELECT P.sid,P.bookNo 
+FROM  (SELECT sb.sid, sb.bookNo, sb.price
+		FROM studentBooks sb) AS P
+WHERE P.price NOT IN
+	(SELECT p1.price 
+	FROM 	(SELECT sb.sid, sb.bookNo, sb.price
+		FROM studentBooks sb
+		WHERE sb.sid = P.sid) AS P1, 
+		(SELECT sb.sid, sb.bookNo, sb.price
+		FROM studentBooks sb
+		WHERE sb.sid = P.sid) AS P2 
+	WHERE P1.price > P2.price);
+
+--(14)
+--Without using the ALL predicate, list the Bookno’s of the cheapest books.
+
+SELECT DISTINCT b3.bookNo FROM book b3, student s4 WHERE b3.price NOT IN
+			(SELECT b1.price FROM book AS b1, book AS b2
+  			WHERE b1.price > b2.price)
+
+
+--(15)
+-- Find the triples (s1,s2,b) where s1 and s2 are different Sid’s of student 
+--and b is the BookNo of a book that was bought by student s1 or by student s2, 
+---but not by both students.
+
+
+SELECT DISTINCT s1.sid, s2.sid, b1.bookNo
+FROM student s1, student s2, buys b1
+WHERE s1.sid <> s2.sid 
+	AND ((NOT EXISTS(SELECT bookNo 
+	                 FROM buys by 
+			 WHERE s1.sid = by.sid AND by.bookNo = b1.bookNo) 
+	      AND EXISTS(SELECT bookNo 
+			 FROM buys by
+			 WHERE s2.sid = by.sid AND by.bookNo = b1.bookNo))
+	     OR
+	     (NOT EXISTS(SELECT bookNo 
+	                 FROM buys by 
+			 WHERE s2.sid = by.sid AND by.bookNo = b1.bookNo) 
+	      AND EXISTS(SELECT bookNo 
+			 FROM buys by
+			 WHERE s1.sid = by.sid AND by.bookNo = b1.bookNo))
+	    )
+
+--(16)*
+
+SELECT s1.sid, s2.sid
+FROM student s1, student s2, student s3, buys b1, buys b2, buys b3
+WHERE s1.sid <> s2.sid AND s1.sid = b1.bookNo AND NOT(b1.bookNo = b2.bookNo AND s2.sid = b2.sid)
+
+
+
+SELECT NOT EXISTS(
+SELECT *
+FROM
+	(SELECT A FROM A INTERSECT SELECT B FROM B) AS a1,
+	(SELECT A FROM A INTERSECT SELECT B FROM B) AS a2
+WHERE a1.A <> a2.A);
+
+--(17)*
+
+SELECT bn.bookNo FROM (
+(SELECT distinct by.bookNo
+FROM student s, major m, buys by
+WHERE s.sid = m.sid AND m.major = 'Biology' AND s.sid = by.sid AND by.bookNo) 
+EXCEPT
+
+
+) bn
+<> 2003
+SELECT DISTINCT bookNo
+FROM student s1, student s2 major m, buys by
+WHERE bookNo NOT IN(SELECT bookNo FROM
+
+
+--(18)
+
+SELECT b.bookNo
+FROM book b
+WHERE b.bookNo NOT IN
+(
+SELECT DISTINCT by.bookNo
+FROM buys by, student s
+WHERE by.sid = s.sid
+)
+
+--(19)*
+SELECT s.sid, by.bookNo
+FROM buys by, student s
+WHERE by.sid = s.sid
+
+Select bookNo
+FROM book
+WHERE bookNo = 2012
+
+
+--(20)*
+
+
+SELECT distinct s1.sid, s2.sid
+FROM student s1, student s2, buys b1, buys b2
+WHERE s1.sid = b1.sid AND s2.sid = b2.sid AND b1.bookNo = b2.bookNo AND s1.sid <> s2.sid
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+16,17,19,20
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

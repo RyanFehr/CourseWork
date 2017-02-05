@@ -1,0 +1,303 @@
+
+terminal_tetris/game.c,673
+void tetris(99,5535
+void tetris_game_init(120,6467
+void get_new_tet(145,7095
+void decrement_down(208,8663
+void rotate_current_tet(227,9163
+void drop_current_tet(243,9687
+void translate_current_tet_right(261,10394
+void translate_current_tet_left(277,10853
+char get_player_input(295,11315
+char (*get_tetromino(get_tetromino344,12122
+void erase_tet_in_next_box(471,13811
+void place_tet_in_next_box(488,14195
+void save_and_output_next_box(505,14622
+void initialize_next_box(538,15695
+char erase_tet_in_well(552,15936
+char place_tet_in_well(582,16873
+void initialize_well(628,18528
+char look_for_completed_lines(650,18935
+void save_and_output_well(681,19618
+
+terminal_tetris/game_str.h,356
+#define clear_screen_string 1,0
+#define well_floor 2,39
+#define next_box_top_bottom 3,86
+#define next_box_title 4,128
+#define tetris_banner 5,159
+#define lines_cleared 6,191
+#define current_level 7,223
+#define current_score 8,255
+#define GAME_OVER_MESSAGE 9,287
+#define real_time_str 10,326
+#define date_str 11,358
+#define exec_time_str 12,390
+
+terminal_tetris/global.c,2418
+char NULL_EXCEPTION_COUNTER;3,23
+unsigned char TICKS;4,53
+char SECONDS;5,75
+char MINUTES;6,90
+char HOURS;7,105
+char DAYS;8,118
+char REAL_TIME_SECONDS;9,130
+char REAL_TIME_MINUTES;10,155
+char REAL_TIME_HOURS;11,180
+char REAL_TIME_DAY;12,203
+char REAL_TIME_DATE;13,224
+char REAL_TIME_MONTH;14,246
+unsigned char REAL_TIME_YEAR;15,269
+char TIME_MESSAGE[TIME_MESSAGE16,300
+char DATE_MESSAGE[DATE_MESSAGE17,324
+char TEMP_BUF[TEMP_BUF18,348
+char TET_FALLING;19,368
+char DROP_TIME;20,387
+char RECEIVE_BUFFER[RECEIVE_BUFFER22,406
+char TRANSMIT_BUFFER[TRANSMIT_BUFFER23,433
+unsigned short int REC_BUF_IN;24,461
+unsigned short int REC_BUF_OUT;25,493
+unsigned short int TRAN_BUF_IN;26,526
+unsigned short int TRAN_BUF_OUT;27,559
+unsigned short int MAX_TICKS;28,593
+unsigned short int CUR_TICKS;29,624
+double STACKF[STACKF31,657
+char OPERAND_IN[OPERAND_IN33,678
+char OPERATOR;34,700
+char COMMAND;35,716
+char NEW_COMMAND;36,731
+char OPERAND_POINTER;37,750
+char NEW_OPERATOR;38,773
+char CURRENT_WELL[CURRENT_WELL40,795
+char SCRATCH_WELL[SCRATCH_WELL41,823
+char CURRENT_NEXT_BOX[CURRENT_NEXT_BOX42,851
+char SCRATCH_NEXT_BOX[SCRATCH_NEXT_BOX43,881
+char BLOCK_0[BLOCK_056,1380
+char BLOCK_90[BLOCK_9060,1507
+char BLOCK_180[BLOCK_18064,1642
+char BLOCK_270[BLOCK_27068,1756
+char T_0[T_079,2176
+char T_90[T_9083,2255
+char T_180[T_18087,2338
+char T_270[T_27091,2423
+char ZR_0[ZR_0102,2821
+char ZR_90[ZR_90106,2904
+char ZR_180[ZR_180110,2991
+char ZR_270[ZR_270114,3082
+char ZL_0[ZL_0125,3484
+char ZL_90[ZL_90129,3567
+char ZL_180[ZL_180133,3654
+char ZL_270[ZL_270137,3745
+char LR_0[LR_0149,4149
+char LR_90[LR_90153,4260
+char LR_180[LR_180157,4379
+char LR_270[LR_270161,4499
+char LL_0[LL_0173,4924
+char LL_90[LL_90177,5039
+char LL_180[LL_180181,5158
+char LL_270[LL_270185,5281
+char PIPE_0[PIPE_0197,5715
+char PIPE_90[PIPE_90201,5838
+char PIPE_180[PIPE_180205,5965
+char PIPE_270[PIPE_270209,6096
+int CURRENT_TET;213,6227
+int NEXT_TET;214,6245
+char CURRENT_ROTATION;215,6260
+char CURRENT_LINE;216,6284
+char CURRENT_COL;217,6304
+char CURRENT_TET_DOWN;218,6323
+unsigned short int LINES;219,6347
+unsigned short int LEV_LIMIT;220,6374
+unsigned short int GAME_LEVEL;221,6405
+char TICKS_SAV;222,6437
+char GAME_OVER;223,6454
+unsigned short int SCORE;224,6471
+char DROP_LINE;225,6498
+char SCORE_FIRST;226,6515
+void init_global(228,6536
+
+terminal_tetris/main.c,17
+int main(11,314
+
+terminal_tetris/terminal.c,311
+enum {NB_DISABLE,NB_DISABLE22,549
+enum {NB_DISABLE,NB_ENABLE}NB_ENABLE22,549
+void set_point(24,581
+void write_number 67,2165
+void clear_screen_fast(85,2615
+void setup_game_field(90,2687
+void send_message(185,5392
+char rec_dequeue(189,5450
+void trans_enqueue(200,5600
+void send_trans_buffer(204,5654
+
+terminal_tetris/keyboard.c,27
+void init_keyboard(53,832
+
+main.c,17
+int main(41,592
+
+tetromino.c,315
+const tetromino_t tetromino_types[tetromino_types43,616
+int rotate_cw(109,1422
+int rotate_ccw(120,1632
+tetromino_t *create_tetromino create_tetromino131,1843
+display_tetromino(142,2152
+undisplay_tetromino(153,2371
+int destroy_tetromino(164,2591
+void print_tetromino(168,2649
+void test_tetromino(184,2909
+
+tetromino.h,221
+typedef struct tetromino 37,515
+  char type_str[type_str38,542
+  char piece[piece39,563
+  int upper_left_x;40,634
+  int upper_left_y;41,654
+  char draw_char;42,674
+  char color[color43,692
+} tetromino_t;44,709
+
+game.c,41
+void init_game(42,605
+void play(46,642
+
+game.h,330
+typedef struct terminal_dimensions 37,505
+  int maxx;38,542
+  int maxy;39,554
+} terminal_dimensions_t;40,566
+enum {INIT,INIT43,607
+enum {INIT, ADD_PIECE,43,607
+enum {INIT, ADD_PIECE, MOVE_PIECE,43,607
+enum {INIT, ADD_PIECE, MOVE_PIECE, ADJUST_WELL,43,607
+enum {INIT, ADD_PIECE, MOVE_PIECE, ADJUST_WELL, EXIT}EXIT43,607
+
+well.h,192
+typedef struct well 37,505
+  int upper_left_x;38,527
+  int upper_left_y;39,547
+  int width;40,567
+  int height;41,580
+  char draw_char;42,594
+  char color[color43,612
+} well_t;44,629
+
+well.c,59
+well_t *init_well(init_well41,565
+void draw_well(55,893
+
+tetris.h,55
+#define WELL_WIDTH 37,509
+#define WELL_HEIGHT 38,531
+
+terminal_tetris/keyboard.h,0
+
+main.c,17
+int main(42,613
+
+key.h,299
+enum {NOCHAR,NOCHAR36,502
+enum {NOCHAR, REGCHAR,36,502
+enum {NOCHAR, REGCHAR, UP,36,502
+enum {NOCHAR, REGCHAR, UP, DOWN,36,502
+enum {NOCHAR, REGCHAR, UP, DOWN, LEFT,36,502
+enum {NOCHAR, REGCHAR, UP, DOWN, LEFT, RIGHT,36,502
+enum {NOCHAR, REGCHAR, UP, DOWN, LEFT, RIGHT, BADESC}BADESC36,502
+
+key.c,24
+int read_escape(39,542
+
+well.h,192
+typedef struct well 37,505
+  int upper_left_x;38,527
+  int upper_left_y;39,547
+  int width;40,567
+  int height;41,580
+  char draw_char;42,594
+  char color[color43,612
+} well_t;44,629
+
+tetromino.h,358
+typedef struct tetromino 37,515
+  char type_str[type_str38,542
+  char piece[piece39,563
+  int upper_left_x;40,634
+  int upper_left_y;41,654
+  char draw_char;42,674
+  char color[color43,692
+} tetromino_t;44,709
+enum {SAFE,SAFE48,771
+enum {SAFE, COLLIDE}COLLIDE48,771
+enum {MOVE_OK,MOVE_OK51,869
+enum {MOVE_OK, MOVE_FAILED}MOVE_FAILED51,869
+
+score.c,122
+int compute_score(38,508
+  enum {NORMAL,NORMAL39,567
+  enum {NORMAL, TETRIS}TETRIS39,567
+void display_score(81,1261
+
+highscore.h,258
+#define HIGHSCORE_H37,534
+#define MAX_LINE 39,555
+#define NAME_SIZE 40,576
+#define NUM_SCORES_STORED 41,596
+typedef struct highscore 43,626
+  char initials[initials44,653
+  int score;45,683
+  struct highscore *next;next46,696
+} highscore_t;47,722
+
+tetris.h,112
+#define WELL_WIDTH 37,509
+#define WELL_HEIGHT 38,530
+#define BASE_FALL_RATE 40,554
+#define DROP_RATE 41,581
+
+tetromino.c,307
+const tetromino_t tetromino_types[tetromino_types44,637
+int check_collision 110,1443
+int move_tet 126,1771
+int rotate_cw(141,2120
+int rotate_ccw(161,2548
+tetromino_t *create_tetromino create_tetromino181,2977
+display_tetromino(191,3265
+undisplay_tetromino(202,3484
+int destroy_tetromino(213,3704
+
+game.c,54
+void init_game(46,684
+highscore_t *game(game50,721
+
+highscore.c,351
+highscore_t *parse_line(parse_line41,549
+  enum {NAME,NAME46,660
+  enum {NAME, SCORE,46,660
+  enum {NAME, SCORE, EXIT}EXIT46,660
+highscore_t *load_scores(load_scores88,1497
+highscore_t *insert_score(insert_score127,2257
+int store_scores(169,3243
+int free_score_list 185,3593
+int print_score_list 197,3800
+int compare_highscore(215,4335
+
+game.h,432
+typedef struct terminal_dimensions 37,505
+  int maxx;38,542
+  int maxy;39,554
+} terminal_dimensions_t;40,566
+#define DELAY_US 44,649
+enum {INIT,INIT48,696
+enum {INIT, ADD_PIECE,48,696
+enum {INIT, ADD_PIECE, MOVE_PIECE,48,696
+enum {INIT, ADD_PIECE, MOVE_PIECE, ADJUST_WELL,48,696
+enum {INIT, ADD_PIECE, MOVE_PIECE, ADJUST_WELL, GAME_OVER,48,696
+enum {INIT, ADD_PIECE, MOVE_PIECE, ADJUST_WELL, GAME_OVER, EXIT}EXIT48,696
+
+well.c,83
+well_t *init_well(init_well41,565
+void draw_well(55,893
+int prune_well(73,1574
+
+score.h,0

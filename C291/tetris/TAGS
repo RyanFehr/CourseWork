@@ -1,0 +1,136 @@
+
+game.c,40
+void init_game(45,661
+int game(49,698
+
+key.c,24
+int read_escape(39,542
+
+main.c,17
+int main(41,592
+
+tetromino.c,254
+const tetromino_t tetromino_types[tetromino_types43,616
+int rotate_cw(109,1422
+int rotate_ccw(120,1632
+tetromino_t *create_tetromino create_tetromino131,1843
+display_tetromino(142,2152
+undisplay_tetromino(153,2371
+int destroy_tetromino(164,2591
+
+well.c,59
+well_t *init_well(init_well41,565
+void draw_well(55,893
+
+game.h,355
+typedef struct terminal_dimensions 37,505
+  int maxx;38,542
+  int maxy;39,554
+} terminal_dimensions_t;40,566
+#define DELAY_US 44,649
+enum {INIT,INIT48,696
+enum {INIT, ADD_PIECE,48,696
+enum {INIT, ADD_PIECE, MOVE_PIECE,48,696
+enum {INIT, ADD_PIECE, MOVE_PIECE, ADJUST_WELL,48,696
+enum {INIT, ADD_PIECE, MOVE_PIECE, ADJUST_WELL, EXIT}EXIT48,696
+
+key.h,299
+enum {NOCHAR,NOCHAR36,502
+enum {NOCHAR, REGCHAR,36,502
+enum {NOCHAR, REGCHAR, UP,36,502
+enum {NOCHAR, REGCHAR, UP, DOWN,36,502
+enum {NOCHAR, REGCHAR, UP, DOWN, LEFT,36,502
+enum {NOCHAR, REGCHAR, UP, DOWN, LEFT, RIGHT,36,502
+enum {NOCHAR, REGCHAR, UP, DOWN, LEFT, RIGHT, BADESC}BADESC36,502
+
+tetris.h,55
+#define WELL_WIDTH 37,509
+#define WELL_HEIGHT 38,531
+
+tetromino.h,221
+typedef struct tetromino 37,515
+  char type_str[type_str38,542
+  char piece[piece39,563
+  int upper_left_x;40,634
+  int upper_left_y;41,654
+  char draw_char;42,674
+  char color[color43,692
+} tetromino_t;44,709
+
+well.h,192
+typedef struct well 37,505
+  int upper_left_x;38,527
+  int upper_left_y;39,547
+  int width;40,567
+  int height;41,580
+  char draw_char;42,594
+  char color[color43,612
+} well_t;44,629
+
+main.c,17
+int main(41,592
+
+key.h,299
+enum {NOCHAR,NOCHAR36,502
+enum {NOCHAR, REGCHAR,36,502
+enum {NOCHAR, REGCHAR, UP,36,502
+enum {NOCHAR, REGCHAR, UP, DOWN,36,502
+enum {NOCHAR, REGCHAR, UP, DOWN, LEFT,36,502
+enum {NOCHAR, REGCHAR, UP, DOWN, LEFT, RIGHT,36,502
+enum {NOCHAR, REGCHAR, UP, DOWN, LEFT, RIGHT, BADESC}BADESC36,502
+
+key.c,24
+int read_escape(39,542
+
+well.h,192
+typedef struct well 37,505
+  int upper_left_x;38,527
+  int upper_left_y;39,547
+  int width;40,567
+  int height;41,580
+  char draw_char;42,594
+  char color[color43,612
+} well_t;44,629
+
+tetromino.h,221
+typedef struct tetromino 37,515
+  char type_str[type_str38,542
+  char piece[piece39,563
+  int upper_left_x;40,634
+  int upper_left_y;41,654
+  char draw_char;42,674
+  char color[color43,692
+} tetromino_t;44,709
+
+tetris.h,55
+#define WELL_WIDTH 37,509
+#define WELL_HEIGHT 38,531
+
+tetromino.c,264
+const tetromino_t tetromino_types[tetromino_types43,616
+int rotate_cw(109,1422
+int rotate_ccw(120,1632
+tetromino_t *create_tetromino create_tetromino131,1843
+void display_tetromino(142,2152
+void undisplay_tetromino(153,2376
+int destroy_tetromino(164,2601
+
+game.c,40
+void init_game(45,661
+int game(49,698
+
+game.h,355
+typedef struct terminal_dimensions 37,505
+  int maxx;38,542
+  int maxy;39,554
+} terminal_dimensions_t;40,566
+#define DELAY_US 44,649
+enum {INIT,INIT48,696
+enum {INIT, ADD_PIECE,48,696
+enum {INIT, ADD_PIECE, MOVE_PIECE,48,696
+enum {INIT, ADD_PIECE, MOVE_PIECE, ADJUST_WELL,48,696
+enum {INIT, ADD_PIECE, MOVE_PIECE, ADJUST_WELL, EXIT}EXIT48,696
+
+well.c,59
+well_t *init_well(init_well41,565
+void draw_well(55,893
